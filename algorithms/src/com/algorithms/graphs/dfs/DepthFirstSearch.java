@@ -9,11 +9,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class DepthFirstSearch {
 
-    public static Node createBinaryTree(final String serializedTree) {
+    public static Node deserializeBinaryTree(final String serializedTree) {
         return dfs(serializedTree.toCharArray(), new AtomicInteger(0));
     }
 
-    public static String serializeTree(final Node root) {
+    public static String serializeBinaryTree(final Node root) {
         final StringBuilder builder = new StringBuilder();
         dfsSerialize(builder, root);
         return builder.toString();

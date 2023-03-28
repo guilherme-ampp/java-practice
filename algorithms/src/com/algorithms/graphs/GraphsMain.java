@@ -9,8 +9,12 @@ import com.algorithms.graphs.model.Node;
 public class GraphsMain {
 
     public static void main(String[] args) {
+        testDFSSerializeBinaryTree();
+    }
+
+    private static void testDFSSerializeBinaryTree() {
         final String serializedDFSTree = "ABDNNENNCFNNGNN";
-        final Node root = DepthFirstSearch.createBinaryTree(serializedDFSTree);
+        final Node root = DepthFirstSearch.deserializeBinaryTree(serializedDFSTree);
 
         assert root.value() == 'A';
         assert root.getLeft().value() == 'B';
@@ -20,7 +24,7 @@ public class GraphsMain {
         assert root.getRight().getLeft().value() == 'F';
         assert root.getRight().getRight().value() == 'G';
 
-        final String reSerialized = DepthFirstSearch.serializeTree(root);
+        final String reSerialized = DepthFirstSearch.serializeBinaryTree(root);
 
         assert reSerialized.equalsIgnoreCase(serializedDFSTree);
     }
