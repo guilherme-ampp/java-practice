@@ -1,27 +1,42 @@
 package com.algorithms.graphs.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * The node of a tree.
+ * The node of a binary tree.
  */
 public class Node {
 
-    private final String value;
-    private final List<Node> children;
+    private final char value;
+    private Node left;
+    private Node right;
 
-    public Node(final String value) {
+    public Node(final char value) {
         this.value = value;
-        children = new ArrayList<>();
     }
 
-    public String value() {
+    public void setLeft(final Node left) {
+        this.left = left;
+    }
+
+    public void setRight(final Node right) {
+        this.right = right;
+    }
+
+    public Node getLeft() {
+        return left;
+    }
+
+    public Node getRight() {
+        return right;
+    }
+
+    public char value() {
         return value;
     }
 
-    public List<Node> children() {
-        return children;
+    @Override
+    public String toString() {
+        return "Node{" +
+                "value=" + value +
+                '}';
     }
-
 }
