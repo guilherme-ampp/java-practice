@@ -1,7 +1,7 @@
 package com.algorithms.graphs.model;
 
 /**
- * The node of a binary tree.
+ * The node of a binary tree -- An acyclic connected graph where each node has at most two child nodes.
  */
 public class Node {
 
