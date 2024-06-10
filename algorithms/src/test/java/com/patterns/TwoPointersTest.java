@@ -3,9 +3,10 @@ package com.patterns;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Use whenever there is a requirements to find two data elements in an array that satisfy a certain condition.
@@ -66,7 +67,7 @@ public class TwoPointersTest {
         int pLeft = 0;
         int pRight = sortedArray.length - 1;
 
-        while(pLeft < pRight) {
+        while (pLeft < pRight) {
             int currentSum = sortedArray[pLeft] + sortedArray[pRight];
             if (currentSum == findSum) {
                 result = new int[]{pLeft, pRight};
@@ -82,6 +83,38 @@ public class TwoPointersTest {
         // we expect the indexes to the values that match the sum
         assertEquals(1, result[0]);
         assertEquals(4, result[1]);
+    }
+
+    @Test
+    public void testSumOfThreeValues() {
+        final int[] array = new int[]{6, 1, 2, 20, 5, 8};
+        final int target = 31;
+
+        Arrays.sort(array);
+
+        // the three indexes must be distinct
+        // at each iteration, we'll traverse with the low and high pointers to find the triplet that matches the
+        // target result
+        final Supplier<Boolean> mainLoopFunc = () -> {
+            for (int i = 0; i < array.length; i++) {
+                int low = i + 1;
+                int high = array.length - 1;
+                while (low < high) {
+                    int currentSum = array[low] + array[high] + array[i];
+                    if (currentSum == target) {
+                        return true;
+                    }
+                    if (currentSum < target) {
+                        low++;
+                    } else {
+                        high--;
+                    }
+                }
+            }
+            return false;
+        };
+
+        assertTrue(mainLoopFunc.get());
     }
 
     private static String arrayToString(int[] array) {
