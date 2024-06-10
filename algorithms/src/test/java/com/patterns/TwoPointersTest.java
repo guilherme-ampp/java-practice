@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Use whenever there is a requirements to find two data elements in an array that satisfy a certain condition.
@@ -54,6 +55,33 @@ public class TwoPointersTest {
 
         System.out.printf("Result: %s%n", Arrays.toString(sortedArray));
         assertEquals("12581000", arrayToString(sortedArray));
+    }
+
+    @Test
+    public void testPairWithGivenSum() {
+        final int[] sortedArray = new int[]{2, 3, 5, 7, 11, 13};
+        final int findSum = 14;
+        int[] result = null;
+
+        int pLeft = 0;
+        int pRight = sortedArray.length - 1;
+
+        while(pLeft < pRight) {
+            int currentSum = sortedArray[pLeft] + sortedArray[pRight];
+            if (currentSum == findSum) {
+                result = new int[]{pLeft, pRight};
+                break;
+            } else if (currentSum < findSum) {
+                pLeft++;
+            } else {
+                pRight--;
+            }
+        }
+
+        assertNotNull(result);
+        // we expect the indexes to the values that match the sum
+        assertEquals(1, result[0]);
+        assertEquals(4, result[1]);
     }
 
     private static String arrayToString(int[] array) {
