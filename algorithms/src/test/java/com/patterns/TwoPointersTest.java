@@ -1,12 +1,17 @@
 package com.patterns;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
-import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Use whenever there is a requirements to find two data elements in an array that satisfy a certain condition.
@@ -134,11 +139,41 @@ public class TwoPointersTest {
         assertTrue(mainLoopFunc.get());
     }
 
+    @ParameterizedTest
+    @MethodSource("waterContainerTestData")
+    public void testContainerWithTheMostWater(int[] heights, int expectedWaterVolume) {
+        int left = 0;
+        int right = heights.length - 1;
+        int bestWaterVolume = 0;
+
+        while (left < right) {
+            int currentWaterVolume = Math.min(heights[left], heights[right]) * (right - left);
+            if (currentWaterVolume > bestWaterVolume) {
+                bestWaterVolume = currentWaterVolume;
+            }
+            if (heights[left] < heights[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        assertEquals(expectedWaterVolume, bestWaterVolume);
+    }
+
     private static String arrayToString(int[] array) {
         return Arrays.stream(array)
                 .mapToObj(String::valueOf)
                 .reduce((i, j) -> String.format("%s%s", i, j))
                 .orElse("");
+    }
+
+    static Stream<Arguments> waterContainerTestData() {
+        return Stream.of(
+                Arguments.of(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7}, 49),
+                Arguments.of(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 1}, 40),
+                Arguments.of(new int[]{2, 8, 6, 3, 5, 4, 7}, 35),
+                Arguments.of(new int[]{8, 2, 6, 3, 5, 4, 7}, 42));
     }
 
 }
