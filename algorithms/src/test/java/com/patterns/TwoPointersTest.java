@@ -139,6 +139,12 @@ public class TwoPointersTest {
         assertTrue(mainLoopFunc.get());
     }
 
+    /**
+     * Time: O(n)
+     * Space: O(1)
+     * @param heights - the block heights containing the water
+     * @param expectedWaterVolume - the most volume of water the given blocks can hold
+     */
     @ParameterizedTest
     @MethodSource("waterContainerTestData")
     public void testContainerWithTheMostWater(int[] heights, int expectedWaterVolume) {
