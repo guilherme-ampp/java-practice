@@ -1,0 +1,20 @@
+apply plugin: 'java'
+
+// tag::repositories[]
+repositories {
+    mavenCentral()
+}
+// end::repositories[]
+
+// tag::dependencies[]
+dependencies {
+    testImplementation "junit:junit:4.13.2"
+}
+// end::dependencies[]
+
+// tag::jar[]
+jar {
+    archiveBaseName = 'java-practice-gradle'
+    archiveVersion =  '0.1.0'
+}
+// end::jar[]
