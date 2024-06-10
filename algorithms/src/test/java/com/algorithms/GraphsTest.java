@@ -1,40 +1,39 @@
-package com.algorithms.graphs;
+package com.algorithms;
 
 import com.algorithms.graphs.dfs.DepthFirstSearch;
 import com.algorithms.graphs.model.Node;
+import org.junit.Test;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-/**
- * Main entry-point for graphs algorithm exercises.
- */
-public class GraphsMain {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-    public static void main(String[] args) {
-        testDFSSerializeBinaryTree();
-        testDFSProcessing();
-    }
+public class GraphsTest {
 
-    private static void testDFSSerializeBinaryTree() {
+    @Test
+    public void testDFSSerializeBinaryTree() {
         final String serializedDFSTree = "ABDNNENNCFNNGNN";
         final Node root = DepthFirstSearch.deserializeBinaryTree(serializedDFSTree);
 
-        assert root.value() == 'A';
-        assert root.getLeft().value() == 'B';
-        assert root.getRight().value() == 'C';
-        assert root.getLeft().getLeft().value() == 'D';
-        assert root.getLeft().getRight().value() == 'E';
-        assert root.getRight().getLeft().value() == 'F';
-        assert root.getRight().getRight().value() == 'G';
+        assertEquals(root.value(), 'A');
+        assertEquals(root.getLeft().value(), 'B');
+        assertEquals(root.getRight().value(), 'C');
+        assertEquals(root.getLeft().getLeft().value(), 'D');
+        assertEquals(root.getLeft().getRight().value(), 'E');
+        assertEquals(root.getRight().getLeft().value(), 'F');
+        assertEquals(root.getRight().getRight().value(), 'G');
 
         final String reSerialized = DepthFirstSearch.serializeBinaryTree(root);
 
-        assert reSerialized.equalsIgnoreCase(serializedDFSTree);
+        assertTrue(reSerialized.equalsIgnoreCase(serializedDFSTree));
     }
 
-    private static void testDFSProcessing() {
+    @Test
+    public void testDFSProcessing() {
         final String serializedDFSTree = "ABDNNENNCFNNGNN";
         final Node root = DepthFirstSearch.deserializeBinaryTree(serializedDFSTree);
 
@@ -44,15 +43,25 @@ public class GraphsMain {
 
         DepthFirstSearch.dfs(root, consumer, DepthFirstSearch.Policy.PRE);
         System.out.println("PRE:" + builder);
+        assertEquals("ABDECFG", listToString(builder));
         builder.clear();
 
         DepthFirstSearch.dfs(root, consumer, DepthFirstSearch.Policy.IN);
         System.out.println("IN:" + builder);
+        assertEquals("DBEAFCG", listToString(builder));
         builder.clear();
 
         DepthFirstSearch.dfs(root, consumer, DepthFirstSearch.Policy.POST);
         System.out.println("POST:" + builder);
+        assertEquals("DEBFGCA", listToString(builder));
         builder.clear();
+    }
+
+    private static String listToString(List<Character> characterList) {
+        return characterList.stream()
+                .map(String::valueOf)
+                .reduce((first, second) -> String.format("%s%s", first, second))
+                .orElse("");
     }
 
 }
