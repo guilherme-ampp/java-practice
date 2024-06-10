@@ -20,6 +20,10 @@ import static org.junit.Assert.*;
  */
 public class TwoPointersTest {
 
+    /**
+     * Time: O(n)
+     * Space: O(1)
+     */
     @Test
     public void testReverseArrayInPlace() {
         final int[] array = new int[]{1, 2, 3, 4, 5, 6, 7};
@@ -36,6 +40,10 @@ public class TwoPointersTest {
         assertEquals("7654321", arrayToString(array));
     }
 
+    /**
+     * Time: O(n)
+     * Space: O(1)
+     */
     @Test
     public void testMoveAllZerosToTheEnd() {
         final int[] sortedArray = new int[]{1, 2, 0, 0, 5, 0, 8, 1};
@@ -58,6 +66,10 @@ public class TwoPointersTest {
         assertEquals("12581000", arrayToString(sortedArray));
     }
 
+    /**
+     * Time: O(n)
+     * Space: O(1)
+     */
     @Test
     public void testPairWithGivenSum() {
         final int[] sortedArray = new int[]{2, 3, 5, 7, 11, 13};
@@ -85,17 +97,22 @@ public class TwoPointersTest {
         assertEquals(4, result[1]);
     }
 
+    /**
+     * Time: O(n2) -- from O(nlog(n) + n2)
+     * Space: O(log(n))
+     */
     @Test
     public void testSumOfThreeValues() {
         final int[] array = new int[]{6, 1, 2, 20, 5, 8};
         final int target = 31;
 
-        Arrays.sort(array);
+        Arrays.sort(array);  // time O(nlog(n)) // space O(log(n))
 
         // the three indexes must be distinct
         // at each iteration, we'll traverse with the low and high pointers to find the triplet that matches the
         // target result
         final Supplier<Boolean> mainLoopFunc = () -> {
+            // time O(n2) // space O(1)
             for (int i = 0; i < array.length; i++) {
                 int low = i + 1;
                 int high = array.length - 1;
