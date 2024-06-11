@@ -24,7 +24,7 @@ public class HashingTest {
         final HashMap<Integer, Integer> map = new HashMap<>();
 
         for (int current : nums2) {
-             if (!stack.isEmpty() && current > stack.peek()) {
+             while (!stack.isEmpty() && current > stack.peek()) {
                  map.put(stack.pop(), current);
              }
              stack.push(current);
@@ -45,7 +45,6 @@ public class HashingTest {
     private static Stream<Arguments> getNextGreaterElementData() {
         return Stream.of(
                 Arguments.of(new int[]{5, 4, 7}, new int[]{4, 5, 7, 3}, new int[]{7, 5, -1}),
-                // FIXME - this test case is not working with this solution!
                 Arguments.of(new int[]{9, 7, 6}, new int[]{5, 7, 6, 8, 9}, new int[]{-1, 8, 8})
         );
     }
