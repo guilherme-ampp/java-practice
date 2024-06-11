@@ -1,11 +1,14 @@
 package com.patterns;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,8 +25,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class TopKElementsTest {
 
-    public void testSortCharactersByFrequency() {
+    @ParameterizedTest
+    @MethodSource("getSortCharsData")
+    public void testSortCharactersByFrequency(String input, String expected) {
+        final Map<Character, AtomicInteger> charCounter = new HashMap<>();
+        for (Character c : input.toCharArray()) {
+            charCounter.compute(c, (k, v) -> {
+                if (v == null) {
+                    return new AtomicInteger(1);
+                }
+                v.incrementAndGet();
+                return v;
+            });
+        }
 
+        final PriorityQueue<Pair<Integer, Character>> maxHeap =
+                new PriorityQueue<>(Comparator.comparingInt((p) -> ((Pair<Integer, Character>)p).getKey()).reversed());
+        for (Map.Entry<Character, AtomicInteger> entry : charCounter.entrySet()) {
+            maxHeap.offer(new Pair<>(entry.getValue().get(), entry.getKey()));
+        }
+
+        final StringBuilder sorted = new StringBuilder();
+        while (!maxHeap.isEmpty()) {
+            final Pair<Integer, Character> pair = maxHeap.poll();
+            sorted.append(String.valueOf(pair.getValue()).repeat(pair.getKey()));
+        }
+
+        assertEquals(expected, sorted.toString());
     }
 
     @ParameterizedTest
@@ -48,8 +76,29 @@ public class TopKElementsTest {
         assertEquals(minCost, result);
     }
 
+    private static Stream<Arguments> getSortCharsData() {
+        return Stream.of(Arguments.of("buubble", "bbbuule"));
+    }
+
     private static Stream<Arguments> getRopesData() {
         return Stream.of(Arguments.of(new int[]{6, 4, 3, 2}, 15));
     }
 
+    private static final class Pair<K, V> {
+        final K key;
+        final V value;
+
+        Pair(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+    }
 }
