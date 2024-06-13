@@ -1,32 +1,32 @@
 package com.datastructures;
 
-public class TreeNode {
+public class TreeNode<T> {
 
-    private final char value;
-    private TreeNode left;
-    private TreeNode right;
+    private final T value;
+    private TreeNode<T> left;
+    private TreeNode<T> right;
 
-    public TreeNode(char value) {
+    public TreeNode(T value) {
         this.value = value;
     }
 
-    public char getValue() {
+    public T getValue() {
         return value;
     }
 
-    public TreeNode getLeft() {
+    public TreeNode<T> getLeft() {
         return left;
     }
 
-    public TreeNode getRight() {
+    public TreeNode<T> getRight() {
         return right;
     }
 
-    public void setLeft(TreeNode left) {
+    public void setLeft(TreeNode<T> left) {
         this.left = left;
     }
 
-    public void setRight(TreeNode right) {
+    public void setRight(TreeNode<T> right) {
         this.right = right;
     }
 

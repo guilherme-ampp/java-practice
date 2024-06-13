@@ -24,7 +24,7 @@ public class DepthFirstSearchTest {
      */
     @Test
     public void testPreorderTraversal() {
-        final TreeNode root = createTree();
+        final TreeNode<Character> root = createTree();
         final StringBuilder builder = new StringBuilder();
         dfsPreorder(root, (node) -> builder.append(node.getValue()));
 
@@ -40,7 +40,7 @@ public class DepthFirstSearchTest {
      */
     @Test
     public void testInorderTraversal() {
-        TreeNode root = createTree();
+        TreeNode<Character> root = createTree();
         final StringBuilder builder = new StringBuilder();
         dfsInorder(root, (node) -> builder.append(node.getValue()));
 
@@ -55,14 +55,14 @@ public class DepthFirstSearchTest {
      */
     @Test
     public void testPostorderTraversal() {
-        TreeNode root = createTree();
+        TreeNode<Character> root = createTree();
         final StringBuilder builder = new StringBuilder();
         dfsPostorder(root, (node) -> builder.append(node.getValue()));
 
         assertEquals("DEBFGCA", builder.toString());
     }
 
-    private static void dfsPreorder(TreeNode node, Consumer<TreeNode> visitor) {
+    private static void dfsPreorder(TreeNode<Character> node, Consumer<TreeNode<Character>> visitor) {
         if (node == null) {
             return;
         }
@@ -71,7 +71,7 @@ public class DepthFirstSearchTest {
         dfsPreorder(node.getRight(), visitor);
     }
 
-    private static void dfsInorder(TreeNode node, Consumer<TreeNode> visitor) {
+    private static void dfsInorder(TreeNode<Character> node, Consumer<TreeNode<Character>> visitor) {
         if (node == null) {
             return;
         }
@@ -80,7 +80,7 @@ public class DepthFirstSearchTest {
         dfsInorder(node.getRight(), visitor);
     }
 
-    private static void dfsPostorder(TreeNode node, Consumer<TreeNode> visitor) {
+    private static void dfsPostorder(TreeNode<Character> node, Consumer<TreeNode<Character>> visitor) {
         if (node == null) {
             return;
         }
@@ -99,17 +99,17 @@ public class DepthFirstSearchTest {
      *
      * @return The root of this tree
      */
-    private static TreeNode createTree() {
+    private static TreeNode<Character> createTree() {
         char[] serialized = "ABD__E__CF__G__".toCharArray();
         return createNode(serialized, new AtomicInteger(0));
     }
 
-    private static TreeNode createNode(char[] values, AtomicInteger index) {
+    private static TreeNode<Character> createNode(char[] values, AtomicInteger index) {
         if (index.get() < values.length && values[index.get()] == '_') {
             index.getAndIncrement();
             return null;
         }
-        final TreeNode node = new TreeNode(values[index.getAndIncrement()]);
+        final TreeNode<Character> node = new TreeNode<>(values[index.getAndIncrement()]);
         node.setLeft(createNode(values, index));
         node.setRight(createNode(values, index));
         return node;
