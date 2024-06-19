@@ -123,7 +123,6 @@ public class CourseScheduleTest {
                         }, false),
                 Arguments.of(5,
                         new int[][]{
-                                // [1, 0], [2, 1], [3, 1], [1, 4]
                                 new int[]{1, 0},
                                 new int[]{2, 1},
                                 new int[]{3, 1},

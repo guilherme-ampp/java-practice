@@ -49,7 +49,7 @@ public class CycleInGraphTest {
         visiting.remove(vertex);
         System.out.println("Visiting: " + visiting);
         // keep track of all vertices we visited down this valid path
-        // this is so we don't repeat ourselves when going down a different path
+        // this is so we don't repeat ourselves when going down a different path through the same nodes
         visited.add(vertex);
         return false;
     }
