@@ -4,6 +4,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,26 +35,32 @@ public class FirstMissingPositiveTest {
     public void cyclicSort(int[] array) {
         int index = 0;
         while (index < array.length) {
+            System.out.printf("index[%d] array[%s]%n", index, Arrays.toString(array));
             int correctPosition = array[index] - 1;
             if (correctPosition < 0 || correctPosition >= array.length) {
+                System.out.printf("index[%d] \tOUT OF RANGE%n", index);
                 index++;
                 continue;
             }
             // if item is in the correct position, increment index
             if (index == correctPosition) {
                 index++;
+                System.out.printf("index[%d] \tCORRECT%n", index);
             } else {
                 int aux = array[correctPosition];
                 if (aux == array[index]) {
                     // if the values we are about to swap are the same, just move the index,
                     // otherwise we'll go into an infinite loop
+                    System.out.printf("index[%d] \tEQUALS%n", index);
                     index++;
                 } else {
                     // swap with the correct position
                     array[correctPosition] = array[index];
                     array[index] = aux;
+                    System.out.printf("index[%d] \tSWAP!%n", index);
                 }
             }
+            System.out.printf("index[%d] array[%s]%n", index, Arrays.toString(array));
         }
     }
 
@@ -64,7 +71,9 @@ public class FirstMissingPositiveTest {
                 Arguments.of(new int[]{1, 2, 4, 5}, 3),
                 Arguments.of(new int[]{3, 4, -1, 2}, 1),
                 Arguments.of(new int[]{3, 4, 2, 1}, 5),
-                Arguments.of(new int[]{3, 5, 6, 2, 1}, 4)
+                Arguments.of(new int[]{3, 5, 6, 2, 1}, 4),
+                Arguments.of(new int[]{3, 4, -1, 1}, 2),
+                Arguments.of(new int[]{3, 4, 4, -1, 1}, 2)
         );
     }
 
