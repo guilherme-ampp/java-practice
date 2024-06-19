@@ -61,6 +61,7 @@ public class SlidingWindowTest {
     @MethodSource("longestNonRepeatingSubstringData")
     public void testLongestSubstringWithNoRepeatingCharacters(final String string, int expectedLength) {
         if (string == null || string.isEmpty()) {
+            assertEquals(expectedLength, 0);
             return;
         }
         int maxLength = 0;
@@ -71,14 +72,16 @@ public class SlidingWindowTest {
         // keep opening the window until we find a repeated character
         for (int windowEnd = 0; windowEnd < chars.length; windowEnd++) {
             Integer previousIndex = charPositionsMap.put(chars[windowEnd], windowEnd);
-            if (previousIndex != null && previousIndex > windowStart) {
+            if (previousIndex != null && previousIndex >= windowStart) {
                 // if we find a repeated character and its previous occurrence is within the current window
                 // we then adjust the start of our window to the next position after the index of the repeated char
                 windowStart = previousIndex + 1;
             }
             // then we calculate our current window length
-            // that will be the differences of the two indexes + 1 to account for the char in the trailing position
-            maxLength = windowEnd - windowStart + 1;
+            int currentLength = windowEnd - windowStart + 1;
+            if (currentLength > maxLength) {
+                maxLength = currentLength;
+            }
         }
 
         assertEquals(expectedLength, maxLength);
@@ -94,7 +97,10 @@ public class SlidingWindowTest {
         return Stream.of(
                 Arguments.of("abcdbea", 5),
                 Arguments.of("abcdefgh", 8),
-                Arguments.of("abacdaefgh", 7)
+                Arguments.of("abacdaefgh", 7),
+                Arguments.of("bbbbbbbb", 1),
+                Arguments.of("pwwkew", 3),
+                Arguments.of("", 0)
         );
     }
 
