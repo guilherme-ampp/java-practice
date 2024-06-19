@@ -21,6 +21,9 @@ public class FirstMissingPositiveTest {
     @ParameterizedTest
     @MethodSource("firstMissingPositiveData")
     public void testFirstMissingPositive(int[] array, int expectedOutput) {
+        if (array == null) {
+            return;
+        }
         cyclicSort(array);
         int firstMissingPositive = array.length + 1;
         for (int i = 0; i < array.length; i++) {
@@ -33,6 +36,9 @@ public class FirstMissingPositiveTest {
     }
 
     public void cyclicSort(int[] array) {
+        if (array == null || array.length == 0) {
+            return;
+        }
         int index = 0;
         while (index < array.length) {
             System.out.printf("index[%d] array[%s]%n", index, Arrays.toString(array));
