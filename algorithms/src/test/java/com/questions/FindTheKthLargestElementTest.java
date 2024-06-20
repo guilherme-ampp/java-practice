@@ -16,6 +16,9 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Find the Kth largest element in the Binary Search Tree
+ */
 public class FindTheKthLargestElementTest {
 
     static class BST {
