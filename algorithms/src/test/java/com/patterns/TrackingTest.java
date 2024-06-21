@@ -40,17 +40,12 @@ public class TrackingTest {
 
             final Map<Character, AtomicInteger> counterMap = new HashMap<>();
 
+            // count the occurrences of letters in word 1
             for (char c : word1.toCharArray()) {
-                counterMap.compute(c, (k, v) -> {
-                    if (v == null) {
-                        return new AtomicInteger(1);
-                    } else {
-                        v.incrementAndGet();
-                    }
-                    return v;
-                });
+                counterMap.computeIfAbsent(c, (k) -> new AtomicInteger(0)).incrementAndGet();
             }
 
+            // discount the occurrences of letters in word 2
             for (char c : word2.toCharArray()) {
                 final AtomicInteger counter = counterMap.get(c);
                 if (counter == null) {
@@ -59,6 +54,9 @@ public class TrackingTest {
                 counter.decrementAndGet();
             }
 
+            // if all counters are 0 -- it means the two words are anagrams, because the chars could be rearranged
+            // to form the other word
+            // for the logic here -- we test that no counter is larger than 0
             return counterMap.values().stream().noneMatch((counter) -> counter.get() > 0);
         };
 

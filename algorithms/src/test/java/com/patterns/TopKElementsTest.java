@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * The pattern matches the problem if:
  * - Unsorted list analysis:
  * - Identifying a specific subset
- *
+ * <p>
  * The pattern DOES NOT match the problem if:
  * - Presorted input: the input is already sorted according to the criteria relevant to solving the problem
  * - Single extreme value: if only 1 extreme value (either max or min) is required, that can be solved in O(n) with
@@ -30,17 +30,11 @@ public class TopKElementsTest {
     public void testSortCharactersByFrequency(String input, String expected) {
         final Map<Character, AtomicInteger> charCounter = new HashMap<>();
         for (Character c : input.toCharArray()) {
-            charCounter.compute(c, (k, v) -> {
-                if (v == null) {
-                    return new AtomicInteger(1);
-                }
-                v.incrementAndGet();
-                return v;
-            });
+            charCounter.computeIfAbsent(c, (k) -> new AtomicInteger(0)).incrementAndGet();
         }
 
         final PriorityQueue<Pair<Integer, Character>> maxHeap =
-                new PriorityQueue<>(Comparator.comparingInt((p) -> ((Pair<Integer, Character>)p).getKey()).reversed());
+                new PriorityQueue<>(Comparator.comparingInt((p) -> ((Pair<Integer, Character>) p).getKey()).reversed());
         for (Map.Entry<Character, AtomicInteger> entry : charCounter.entrySet()) {
             maxHeap.offer(new Pair<>(entry.getValue().get(), entry.getKey()));
         }
