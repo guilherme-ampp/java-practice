@@ -18,12 +18,24 @@ public class ServerModule extends AbstractModule {
 
     @Provides
     @Singleton
+    public ServerSocketFactory getServerSocketFactory() {
+        return (port) -> {
+            try {
+                return new ServerSocket(port);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
+    @Provides
+    @Singleton
     @Named(ConstantsModule.SERVER_PORT)
-    public int getAvailablePort() {
+    public int getAvailablePort(final ServerSocketFactory serverSocketProvider) {
         int port = START_PORT;
         final AtomicInteger countDown = new AtomicInteger(MAX_PORT_ATTEMPTS);
         while (countDown.getAndDecrement() > 0) {
-            try (ServerSocket socket = new ServerSocket(port)) {
+            try (ServerSocket socket = serverSocketProvider.get(port)) {
                 // If no exception was thrown, the port is available
                 return port;
             } catch (IOException e) {
@@ -53,4 +65,7 @@ public class ServerModule extends AbstractModule {
         return server;
     }
 
+    interface ServerSocketFactory {
+        ServerSocket get(int port);
+    }
 }
