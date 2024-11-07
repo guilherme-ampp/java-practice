@@ -12,6 +12,10 @@ public class Main {
             new TaskRunnerModule(),
             new ServerModule());
 
+    private Main() {
+        // no constructor for utility class
+    }
+
     public static void main(String[] args) throws Exception {
         var server = guiceInjector.getInstance(Server.class);
         server.start();

@@ -16,18 +16,19 @@ public class ServerModule extends AbstractModule {
     private static final int START_PORT = 8080;
     private static final int MAX_PORT_ATTEMPTS = 10;
 
+    /**
+     * Have the ServerSocket be created by a factory to make the code more testable with mocks.
+     */
     @Provides
     @Singleton
     public ServerSocketFactory getServerSocketFactory() {
-        return (port) -> {
-            try {
-                return new ServerSocket(port);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        };
+        return (port) -> new ServerSocket(port);
     }
 
+    /**
+     * Getting an available port could potentially not be a singleton in case we need multiple ports for running
+     * different services out of different ports from the same process.
+     */
     @Provides
     @Singleton
     @Named(ConstantsModule.SERVER_PORT)
@@ -46,6 +47,10 @@ public class ServerModule extends AbstractModule {
         throw new RuntimeException("Could not find an available port to start the server");
     }
 
+    /**
+     * The class name for the root servlet can be injected into wherever the provider of the
+     * server is declared.
+     */
     @Provides
     @Singleton
     @Named(ConstantsModule.ROOT_SERVLET_CLASSNAME)
@@ -65,7 +70,10 @@ public class ServerModule extends AbstractModule {
         return server;
     }
 
+    /**
+     * Server Socket Factory to abstract the creation of a Server Socket.
+     */
     interface ServerSocketFactory {
-        ServerSocket get(int port);
+        ServerSocket get(int port) throws IOException;
     }
 }

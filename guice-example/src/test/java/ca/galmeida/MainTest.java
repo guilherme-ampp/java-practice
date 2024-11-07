@@ -17,6 +17,8 @@ public class MainTest {
 
     @BeforeEach
     public void setup() {
+        // We can use the main guice injector (the same instantiated in production), or we could
+        // create a new injector overriding some of the producer methods with mocks
         server = guiceInjector.getInstance(Server.class);
     }
 
